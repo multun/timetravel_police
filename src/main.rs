@@ -106,7 +106,13 @@ async fn prometheus_server() -> Result<impl warp::Reply, Infallible> {
 }
 
 async fn run(nap_duration: u64, listen_address: SocketAddr, file: PathBuf) {
-    let gauge = Box::new(U64Gauge::new("numbers", "an increasing counter").unwrap());
+    let gauge = Box::new(
+        U64Gauge::new(
+            "timetravel_police_counter",
+            "A counter that may decrease if time travel happens",
+        )
+        .unwrap(),
+    );
     prometheus::default_registry()
         .register(gauge.clone())
         .unwrap();
